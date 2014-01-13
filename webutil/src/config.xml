@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<machines>
+	<!-- run属性写上即为当前生效 -->
+	<machine desc="火车票" run="true">
+		<users>
+		 	<user id="" pwd=""></user>
+		</users>
+		<requests>
+			<!-- method不写即为GET,charset不写即为UTF-8 -->
+			 <request url="https://kyfw.12306.cn/otn/login/init">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<response filter="[tabindex],.code img">
+				</response>
+			</request>
+			<request url_depend="3:[src]" url_depend_prefix="https://kyfw.12306.cn">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<response type="img">
+				</response>
+			</request> 
+			<request url="https://kyfw.12306.cn/otn/login/loginAysnSuggest" method="POST">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="loginUserDTO.user_name" value="leifeng3674"/>
+					<param name="userDTO.password" value="leifeng3674"/>
+					<param name="randCode" value="substr:0"/>
+				</params>
+				<response>
+				</response>
+			</request> 
+	 		 <request url="https://kyfw.12306.cn/otn/login/userLogin" method="POST">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="_json_att" value=""/>
+				</params>
+				<response filter="{return str.messages.length==0}" back="-3">
+				</response>
+			</request>
+			<request url="https://kyfw.12306.cn/otn/leftTicket/init">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<response>
+				</response>
+			</request>
+			<request url="https://kyfw.12306.cn/otn/leftTicket/query">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="leftTicketDTO.train_date" value="2014-01-26"/>
+					<param name="leftTicketDTO.from_station" value="BJP"/>
+					<param name="leftTicketDTO.to_station" value="XGN"/>
+					<param name="purpose_codes" value="ADULT"/>
+				</params>
+				<response>
+				</response>
+			</request>
+			 <request url="https://kyfw.12306.cn/otn/leftTicket/query">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="leftTicketDTO.train_date" value="2014-01-27"/>
+					<param name="leftTicketDTO.from_station" value="BJP"/>
+					<param name="leftTicketDTO.to_station" value="XGN"/>
+					<param name="purpose_codes" value="ADULT"/>
+				</params>
+				<response filter="{for(var i in str.data){var can =str.data[i].queryLeftNewDTO.canWebBuy; var num = str.data[i].queryLeftNewDTO.yz_num;if(can=='Y' &amp;&amp; (num!='无'&amp;&amp;num!='--'))return true;}return false;}">
+				</response>
+			</request>  
+		</requests>
+	</machine>
+	<machine desc="小米" run="true">
+		<users>
+		 	<user id="" pwd=""></user>
+		</users>
+		<requests>
+			<!-- method不写即为GET,charset不写即为UTF-8 -->
+			<request url="https://www.account.xiaomi.com/pass/serviceLoginAuth2" method="POST">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="user" value="18610883084"/>
+					<param name="sid" value="eshop"/>
+					<param name="callback" value="http://order.xiaomi.com/login/callback?followup=http%3A%2F%2Fwww.xiaomi.com%2Findex.php&amp;sign=ZjEwMWVlOTY3MWM1OGE3YjYxNGRiZjQ5MzJmYjI5NDE0ZWY0NzY5Mw,,"/>
+					<param name="_sign" value="g7K1HSZPYIaO4tSlhS1xdDJBPV8="/>
+					<param name="pwd" value="leifeng3674"/>
+					<param name="_json" value="true"/>
+					
+				</params>
+				<response>
+				</response>
+			</request> 
+		</requests>
+	</machine>
+	<machine desc="万达网站抢票">
+		<users>
+		 	<user id="" pwd=""></user>
+		 	<user id="" pwd=""></user>
+		 	<user id="" pwd=""></user>
+		 	<user id="" pwd=""></user>
+		</users>
+		<requests>
+			<!-- method不写即为GET,charset不写即为UTF-8 -->
+			<request url="http://www.wandafilm.com/login.do" method="POST" charset="UTF-8">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="m" value="ajaxLogin"/>
+					<param name="autoLogin" value="on"/>
+					<param name="email" value="$[id]$"/>
+					<param name="password" value="$[pwd]$"/>
+					<param name="validator" value="1"/>
+				</params>
+				<!-- type不写即为html type="json"-->
+				<response charset="GBK" filter="">
+				</response>
+			</request>
+			<request url="http://www.wandafilm.com/christmasSecondSkill.do">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="m" value="ajaxLogin"/>
+					<param name="cinemaId" value="$[]$"/>
+				</params>
+			</request>
+		</requests>
+	</machine>
+	<machine desc="模拟登录操作" run="true">
+		<users>
+		 	<user id="" pwd=""></user>
+		</users>
+		<requests>
+			<!-- method不写即为GET,charset不写即为UTF-8 -->
+			<!-- <request url="http://lego.iqiyi.com/authenticate" method="POST">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+				<params>
+					<param name="url" value=""/>
+					<param name="username" value="leifengfeng"/>
+					<param name="password" value="2wsx#EDC"/>
+				</params>
+				type不写即为html type="json"
+				<response>
+				</response>
+			</request> -->
+			<request url="http://lego.iqiyi.com/">
+				<headers>
+					<header name="http.useragent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"></header>
+				</headers>
+			</request>
+		</requests>
+	</machine>
+</machines>
